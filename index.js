@@ -9,7 +9,8 @@ const path = require("path")
 const app = express()
 
 app.set("view engine", "ejs")
-app.set("views", path.join(__dirname, 'View'))
+
+app.set("views", path.join(process.cwd(), "View"));
 
 app.use(express.urlencoded({ extended: true }))
 
@@ -19,6 +20,8 @@ connectDB()
 app.use("/", route)
 
 app.listen(
-    process.env.PORT,
+    process.env.PORT || 5000,
     () => console.log(`Server Started at port ${process.env.PORT}`)
 )
+
+module.exports = app;

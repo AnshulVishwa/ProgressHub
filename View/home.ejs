@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Dashboard</title>
+
+    <style>
+        /* 🎨 Modern CSS Variables */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #8b5cf6;
+            --badge-topic: rgba(139, 92, 246, 0.2);
+            --badge-topic-border: rgba(139, 92, 246, 0.5);
+            --badge-question: rgba(59, 130, 246, 0.2);
+            --badge-question-border: rgba(59, 130, 246, 0.5);
+            --badge-algo: rgba(16, 185, 129, 0.2);
+            --badge-algo-border: rgba(16, 185, 129, 0.5);
+        }
+
+        /* 🌌 Background and Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 🧭 Glassmorphism Navbar */
+        .navbar {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* 📦 Main Container */
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 3rem 1rem;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        /* 📊 The Grid System for the Cards */
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 🪟 Glassmorphism Cards */
+        .progress-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.8rem;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .progress-card h5 {
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.8rem;
+        }
+
+        /* 📝 Badge System */
+        .data-row {
+            margin-bottom: 1.2rem;
+        }
+
+        .data-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid;
+        }
+
+        /* Color Coding the Badges! 🎨 */
+        .badge-topic {
+            background: var(--badge-topic);
+            border-color: var(--badge-topic-border);
+            color: #d8b4fe;
+        }
+
+        .badge-question {
+            background: var(--badge-question);
+            border-color: var(--badge-question-border);
+            color: #93c5fd;
+        }
+
+        .badge-algo {
+            background: var(--badge-algo);
+            border-color: var(--badge-algo-border);
+            color: #6ee7b7;
+        }
+
+        /* 📭 Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">ProgressHub</div>
+        <div class="nav-links">
+            <a href="/<%= username %>/newday">➕ Log New Day</a>
+            <a href="/<%= username %>/update">🔄 Update Day</a>
+            <a href="/login">🚪 Switch User</a>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <header>
+            <h1>Welcome, <%= username %>! 👋</h1>
+        </header>
+
+        <% if (userProgressList.length === 0) { %>
+            <div class="empty-state">
+                <h2>No progress data yet! 🌱</h2>
+                <p>Time to start logging your coding journey.</p>
+            </div>
+        <% } else { %>
+            <ul class="progress-grid">
+                <% userProgressList.forEach(progress => { %>
+                    <li class="progress-card">
+                        <h5>Day <%= progress.day %> 🚀</h5>
+
+                        <div class="data-row">
+                            <span class="data-label">Topics Covered 📚</span>
+                            <div class="badge-container">
+                                <% if (progress.topics && progress.topics.length > 0) { %>
+                                    <% progress.topics.forEach(topic => { %>
+                                        <span class="badge badge-topic"><%= topic %></span>
+                                    <% }); %>
+                                <% } else { %>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None recorded</span>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="data-row">
+                            <span class="data-label">Questions Solved 💡</span>
+                            <div class="badge-container">
+                                <% if (progress.questions && progress.questions.length > 0) { %>
+                                    <% progress.questions.forEach(question => { %>
+                                        <span class="badge badge-question"><%= question %></span>
+                                    <% }); %>
+                                <% } else { %>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None recorded</span>
+                                <% } %>
+                            </div>
+                        </div>
+
+                        <div class="data-row">
+                            <span class="data-label">Algorithms Implemented ⚙️</span>
+                            <div class="badge-container">
+                                <% if (progress.algorithms && progress.algorithms.length > 0) { %>
+                                    <% progress.algorithms.forEach(algo => { %>
+                                        <span class="badge badge-algo"><%= algo %></span>
+                                    <% }); %>
+                                <% } else { %>
+                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None recorded</span>
+                                <% } %>
+                            </div>
+                        </div>
+                    </li>
+                <% }); %>
+            </ul>
+        <% } %>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ProgressHub</title>
+    <style>
+        /* 🎨 Consistent Glassmorphism Variables! */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #8b5cf6;
+            --accent-hover: #a855f7;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+
+            /* 🎯 Perfectly centers the login card on the screen */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 🪟 The Glassmorphism Container */
+        .form-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 3.5rem 3rem;
+            width: 100%;
+            max-width: 400px;
+            /* Slightly narrower than the update forms for a sleek look */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .form-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-header h2 {
+            margin: 0;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* 📝 Input Styling */
+        .input-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+            /* Keep the label aligned to the left */
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 1.05rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(148, 163, 184, 0.5);
+            /* Subtle placeholder color */
+        }
+
+        /* ✨ Focus Effect */
+        input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* 🚀 Submit Button Styling */
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 0.5rem;
+            background: linear-gradient(135deg, var(--accent), #3b82f6);
+            /* Unique gradient for entry! */
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Start Tracking 🚀</h2>
+            <p>Enter your username to jump back into your progress.</p>
+        </div>
+
+        <form action="/username" method="POST">
+            <div class="input-group">
+                <label for="username">Your Username 👤</label>
+                <input type="text" placeholder="e.g. CodeMaster99" name="username" id="username" autocomplete="off"
+                    required>
+            </div>
+
+            <button type="submit">Let's Go! ✨</button>
+        </form>
+    </div>
+</body>
+
+</html>

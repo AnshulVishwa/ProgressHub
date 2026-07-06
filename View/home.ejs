@@ -131,13 +131,31 @@
             border-color: rgba(139, 92, 246, 0.5);
         }
 
-        .progress-card h5 {
-            font-size: 1.4rem;
-            margin-top: 0;
-            margin-bottom: 1.2rem;
-            color: var(--accent);
+        /* 📌 Card Header & Date Badge */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 1px solid var(--card-border);
             padding-bottom: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .progress-card h5 {
+            font-size: 1.4rem;
+            margin: 0;
+            color: var(--accent);
+        }
+
+        .date-badge {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: var(--text-muted);
+            padding: 0.3rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         /* 📝 Badge System */
@@ -225,7 +243,17 @@
                 <ul class="progress-grid">
                     <% userProgressList.forEach(progress=> { %>
                         <li class="progress-card">
-                            <h5>Day <%= progress.day %> 🚀</h5>
+
+                            <div class="card-header">
+                                <h5>Day <%= progress.day %> 🚀</h5>
+                                <% if (progress.date) { let displayDate=progress.date; const parsedDate=new
+                                    Date(progress.date); /* Check if the date is valid before formatting */ if
+                                    (!isNaN(parsedDate.getTime())) { /* 'en-GB' formats it as Day Month (e.g., "2 July"
+                                    ) */ displayDate=parsedDate.toLocaleDateString('en-GB', { day: 'numeric' ,
+                                    month: 'long' }); } %>
+                                    <span class="date-badge">📅 <%= displayDate %></span>
+                                    <% } %>
+                            </div>
 
                             <div class="data-row">
                                 <span class="data-label">Topics Covered 📚</span>

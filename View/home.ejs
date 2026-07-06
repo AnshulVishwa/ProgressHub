@@ -216,59 +216,68 @@
             <h1>Welcome, <%= username %>! 👋</h1>
         </header>
 
-        <% if (userProgressList.length === 0) { %>
+        <% if (userProgressList.length===0) { %>
             <div class="empty-state">
                 <h2>No progress data yet! 🌱</h2>
                 <p>Time to start logging your coding journey.</p>
             </div>
-        <% } else { %>
-            <ul class="progress-grid">
-                <% userProgressList.forEach(progress => { %>
-                    <li class="progress-card">
-                        <h5>Day <%= progress.day %> 🚀</h5>
+            <% } else { %>
+                <ul class="progress-grid">
+                    <% userProgressList.forEach(progress=> { %>
+                        <li class="progress-card">
+                            <h5>Day <%= progress.day %> 🚀</h5>
 
-                        <div class="data-row">
-                            <span class="data-label">Topics Covered 📚</span>
-                            <div class="badge-container">
-                                <% if (progress.topics && progress.topics.length > 0) { %>
-                                    <% progress.topics.forEach(topic => { %>
-                                        <span class="badge badge-topic"><%= topic %></span>
-                                    <% }); %>
-                                <% } else { %>
-                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None recorded</span>
-                                <% } %>
+                            <div class="data-row">
+                                <span class="data-label">Topics Covered 📚</span>
+                                <div class="badge-container">
+                                    <% if (progress.topics && progress.topics.length> 0) { %>
+                                        <% [...new Set(progress.topics)].forEach(uniqueTopic=> { %>
+                                            <span class="badge badge-topic">
+                                                <%= uniqueTopic %>
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None
+                                                        recorded</span>
+                                                    <% } %>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="data-row">
-                            <span class="data-label">Questions Solved 💡</span>
-                            <div class="badge-container">
-                                <% if (progress.questions && progress.questions.length > 0) { %>
-                                    <% progress.questions.forEach(question => { %>
-                                        <span class="badge badge-question"><%= question %></span>
-                                    <% }); %>
-                                <% } else { %>
-                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None recorded</span>
-                                <% } %>
+                            <div class="data-row">
+                                <span class="data-label">Questions Solved 💡</span>
+                                <div class="badge-container">
+                                    <% if (progress.questions && progress.questions.length> 0) { %>
+                                        <% [...new Set(progress.questions)].forEach(uniqueQuestion=> { %>
+                                            <span class="badge badge-question">
+                                                <%= uniqueQuestion %>
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None
+                                                        recorded</span>
+                                                    <% } %>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="data-row">
-                            <span class="data-label">Algorithms Implemented ⚙️</span>
-                            <div class="badge-container">
-                                <% if (progress.algorithms && progress.algorithms.length > 0) { %>
-                                    <% progress.algorithms.forEach(algo => { %>
-                                        <span class="badge badge-algo"><%= algo %></span>
-                                    <% }); %>
-                                <% } else { %>
-                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None recorded</span>
-                                <% } %>
+                            <div class="data-row">
+                                <span class="data-label">Algorithms Implemented ⚙️</span>
+                                <div class="badge-container">
+                                    <% if (progress.algorithms && progress.algorithms.length> 0) { %>
+                                        <% [...new Set(progress.algorithms)].forEach(uniqueAlgorithm=> { %>
+                                            <span class="badge badge-algo">
+                                                <%= uniqueAlgorithm %>
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None
+                                                        recorded</span>
+                                                    <% } %>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-                <% }); %>
-            </ul>
-        <% } %>
+                        </li>
+                        <% }); %>
+                </ul>
+                <% } %>
     </div>
 </body>
 

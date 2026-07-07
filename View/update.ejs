@@ -4,254 +4,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Details</title>
+    <title>Update Details - ProgressHub</title>
+
     <style>
-        /* 🎨 Perfect consistency with your New Day form! */
+        /* 🎨 Clean Dark Theme Variables (Perfect Match with Home & New Day!) */
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b);
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --input-bg: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #8b5cf6;
-            --accent-hover: #a855f7;
+            --bg-main: #131426;
+            --bg-card: #1c1d36;
+            --bg-nav-button: #242645;
+            --bg-input: #15162c;
+
+            --text-main: #ffffff;
+            --text-muted: #8a8ca3;
+
+            --accent-brand: #9d7cff;
+            --accent-hover: #b095ff;
             --update-accent: #3b82f6;
+            /* Keeping a blue tint for the update action! */
+
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(59, 130, 246, 0.5);
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
+            background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
-            /* Changed to column so the navbar stays at the top! 📏 */
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* 🧭 Glassmorphism Navbar */
-        .navbar {
+        /* 🧭 Standard Top Navbar */
+        .dashboard-nav {
             width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 1rem 2rem;
+            background-color: var(--bg-main);
+            padding: 1.2rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .nav-brand {
-            font-size: 1.5rem;
+        .brand-title {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(to right, #3b82f6, #a855f7);
-            /* Matched update gradient! */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent-brand);
+            letter-spacing: 0.5px;
             text-decoration: none;
         }
 
-        .nav-links {
+        .navigation-links {
             display: flex;
             gap: 1rem;
         }
 
-        .nav-links a {
+        .navigation-links a {
             text-decoration: none;
             color: var(--text-main);
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            background: var(--bg-nav-button);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            transition: background 0.2s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .nav-links a:hover {
+        .navigation-links a:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
         }
 
-        /* 🪟 The Glassmorphism Container */
-        .form-container {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 3rem;
+        /* 📦 Form Container */
+        .form-wrapper {
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            /* margin: auto keeps it perfectly centered! 🎯 */
-            margin: auto;
-            margin-top: 3rem;
-            margin-bottom: 3rem;
+            max-width: 600px;
+            /* Slightly narrower than New Day since it's a single update */
+            padding: 3rem 2rem;
+            box-sizing: border-box;
         }
 
         .form-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .form-header h2 {
+        .form-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
             margin: 0;
-            font-size: 2rem;
-            background: linear-gradient(to right, #3b82f6, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-main);
         }
 
         .form-header p {
             color: var(--text-muted);
             margin-top: 0.5rem;
-            font-size: 0.95rem;
+        }
+
+        /* 🃏 Flat Dark Form Card */
+        .update-form {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
         /* 📝 Input Group Styling */
         .input-group {
-            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+        .input-label {
+            font-weight: 600;
             color: var(--text-muted);
-            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        input[type="text"],
-        select {
-            width: 100%;
-            padding: 12px 16px;
-            background: var(--input-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
+        .base-input {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
             color: var(--text-main);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
             font-size: 1rem;
             outline: none;
             transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
             box-sizing: border-box;
         }
 
-        /* ✨ Focus Effects */
-        input[type="text"]:focus,
-        select:focus {
-            border-color: var(--update-accent);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-            background: rgba(255, 255, 255, 0.12);
+        .base-input:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
-        select option {
-            background-color: #1e1b4b;
+        select.base-input option {
+            background-color: var(--bg-card);
             color: var(--text-main);
         }
 
         /* 🚀 Submit Button Styling */
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 1rem;
-            background: linear-gradient(135deg, var(--update-accent), var(--accent));
-            border: none;
-            border-radius: 12px;
-            color: white;
+        .btn-submit {
+            background-color: var(--update-accent);
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: none;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
         }
 
-        button:hover {
+        .btn-submit:hover {
+            background-color: #2563eb;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        button:active {
-            transform: translateY(1px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <a href="/<%= username %>" class="nav-brand">ProgressHub</a>
-        <div class="nav-links">
+    <nav class="dashboard-nav">
+        <a href="/<%= username %>" class="brand-title">ProgressHub</a>
+        <div class="navigation-links">
             <a href="/<%= username %>">🏠 Dashboard</a>
             <a href="/<%= username %>/newday">➕ Log New Day</a>
-            <a href="/<%= username %>/update">🔄 Update Day</a>
             <a href="/login">🚪 Switch User</a>
         </div>
     </nav>
 
-    <div class="form-container">
-        <div class="form-header">
-            <h2>Update Progress 🔄</h2>
-            <p>Add more achievements to your day!</p>
-        </div>
+    <div class="form-wrapper">
+        <header class="form-header">
+            <h1>Update Progress 🔄</h1>
+            <p>Add more achievements to your existing day!</p>
+        </header>
 
-        <form method="POST" action="/<%= username %>/update">
+        <form class="update-form" method="POST" action="/<%= username %>/update">
+
             <div class="input-group">
-                <label for="day">Day Number 📅</label>
-                <input type="text" id="day" name="day" placeholder="e.g., 1" required>
+                <label class="input-label" for="day">Day Number 📅</label>
+                <input type="number" id="day" name="day" class="base-input" placeholder="e.g. 1" required>
             </div>
 
             <div class="input-group">
-                <label for="topics">Topic Covered 📚</label>
-                <select id="topics" name="topics" required>
+                <label class="input-label" for="topics">Topic Covered 📚</label>
+                <select id="topics" name="topics[]" class="base-input" required>
                     <option value="" disabled selected>Select a topic...</option>
+                    <option value="Strings">Strings</option>
+                    <option value="Numbers">Numbers</option>
                     <option value="Arrays">Arrays</option>
                     <option value="Linked Lists">Linked Lists</option>
-                    <option value="Stacks & Queues">Stacks & Queues</option>
-                    <option value="Hash Tables">Hash Tables / Maps</option>
-                    <option value="Trees">Trees (Binary, BST, etc.)</option>
+                    <option value="Stacks">Stacks</option>
+                    <option value="Queues">Queues</option>
+                    <option value="HashMaps">HashMaps</option>
+                    <option value="Trees">Trees</option>
                     <option value="Graphs">Graphs</option>
                     <option value="Heaps">Heaps / Priority Queues</option>
-                    <option value="Tries">Tries</option>
-                    <option value="Sorting & Searching">Sorting & Searching</option>
-                    <option value="Two Pointers">Two Pointers</option>
-                    <option value="Sliding Window">Sliding Window</option>
+                    <option value="Matrices">Matrices</option>
                     <option value="Dynamic Programming">Dynamic Programming</option>
-                    <option value="Greedy Algorithms">Greedy Algorithms</option>
-                    <option value="Backtracking">Backtracking</option>
+                    <option value="Math">Math</option>
                 </select>
             </div>
 
             <div class="input-group">
-                <label for="questions">Question Solved 💡</label>
-                <input type="text" id="questions" name="questions" placeholder="e.g., Merge Intervals" required>
+                <label class="input-label" for="questions">Question Solved 💡</label>
+                <input type="text" id="questions" name="questions[0][q]" class="base-input"
+                    placeholder="e.g. Merge Intervals" required>
             </div>
 
             <div class="input-group">
-                <label for="difficulty">Difficulty Level 🎯</label>
-                <select id="difficulty" name="difficulty" required>
-                    <option value="Easy">Easy</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Hard">Hard</option>
+                <label class="input-label" for="difficulty">Difficulty Level 🎯</label>
+                <select id="difficulty" name="questions[0][difficulty]" class="base-input" required>
+                    <option value="Easy">Easy 🟢</option>
+                    <option value="Medium">Medium 🟡</option>
+                    <option value="Hard">Hard 🔴</option>
                 </select>
             </div>
 
             <div class="input-group">
-                <label for="leetcodeNum">LeetCode Number 🔢</label>
-                <input type="text" id="leetcodeNum" name="leetcodeNum" placeholder="e.g., 1, 2, 3">
+                <label class="input-label" for="leetcodeNum">LeetCode Number 🔢</label>
+                <input type="number" id="leetcodeNum" name="leetcodeNum[]" class="base-input" placeholder="e.g. 56">
             </div>
 
             <div class="input-group">
-                <label for="algorithms">Algorithm Implemented ⚙️</label>
-                <input type="text" id="algorithms" name="algorithms" placeholder="e.g., Sorting" required>
+                <label class="input-label" for="algorithms">Algorithm Implemented ⚙️</label>
+                <input type="text" id="algorithms" name="algorithms[]" class="base-input" placeholder="e.g. Sorting"
+                    required>
             </div>
 
-            <button type="submit">Update Today's Day 🚀</button>
+            <button type="submit" class="btn-submit">🚀 Update Today's Day</button>
         </form>
     </div>
 </body>

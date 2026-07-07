@@ -7,46 +7,28 @@
     <title>Log New Day - ProgressHub</title>
 
     <style>
-        /* 🎨 Dark Claymorphism CSS Variables (Same as Dashboard!) */
+        /* 🎨 Clean Dark Theme Variables */
         :root {
-            --bg-main: #1e1e2e;
-            --bg-surface: #27293d;
+            --bg-main: #131426;
+            --bg-card: #1c1d36;
+            --bg-nav-button: #242645;
+            --bg-input: #15162c;
 
-            --text-main: #f8fafc;
-            --text-muted: #a6b0cf;
-            --accent: #b084f6;
-            --accent-hover: #9c65f0;
+            --text-main: #ffffff;
+            --text-muted: #8a8ca3;
 
-            /* Outer Shadows (Pop Out) */
-            --clay-shadow:
-                8px 8px 16px rgba(0, 0, 0, 0.4),
-                -8px -8px 16px rgba(255, 255, 255, 0.03),
-                inset 4px 4px 10px rgba(255, 255, 255, 0.05),
-                inset -4px -4px 10px rgba(0, 0, 0, 0.3);
+            --accent-brand: #9d7cff;
+            --accent-hover: #b095ff;
 
-            --clay-shadow-hover:
-                12px 12px 20px rgba(0, 0, 0, 0.5),
-                -8px -8px 20px rgba(255, 255, 255, 0.04),
-                inset 6px 6px 12px rgba(255, 255, 255, 0.08),
-                inset -6px -6px 12px rgba(0, 0, 0, 0.4);
-
-            /* Inner Shadows (Pressed In - For Inputs) */
-            --clay-inset:
-                inset 4px 4px 8px rgba(0, 0, 0, 0.4),
-                inset -4px -4px 8px rgba(255, 255, 255, 0.04);
-
-            --clay-inset-focus:
-                inset 6px 6px 10px rgba(0, 0, 0, 0.5),
-                inset -4px -4px 10px rgba(255, 255, 255, 0.06),
-                0 0 10px rgba(176, 132, 246, 0.2);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(157, 124, 255, 0.5);
         }
 
-        /* 🌌 Base Styles */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-main);
+            background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -54,58 +36,48 @@
             align-items: center;
         }
 
-        /* 🧭 Clay Navbar */
-        .navbar {
+        /* 🧭 Standard Top Navbar */
+        .dashboard-nav {
             width: 100%;
-            background: var(--bg-surface);
-            padding: 1.2rem 2rem;
+            background-color: var(--bg-main);
+            padding: 1.2rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .nav-brand {
-            font-size: 1.5rem;
+        .brand-title {
+            font-size: 1.4rem;
             font-weight: 800;
-            color: var(--accent);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: var(--accent-brand);
+            letter-spacing: 0.5px;
+            text-decoration: none;
         }
 
-        .nav-links a {
+        .navigation-links a {
             text-decoration: none;
             color: var(--text-main);
-            background: var(--bg-surface);
-            padding: 0.6rem 1.2rem;
-            border-radius: 12px;
+            background: var(--bg-nav-button);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-            box-shadow:
-                4px 4px 8px rgba(0, 0, 0, 0.3),
-                -4px -4px 8px rgba(255, 255, 255, 0.03),
-                inset 2px 2px 4px rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+            transition: background 0.2s ease;
+            border: 1px solid var(--border-color);
         }
 
-        .nav-links a:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                6px 6px 12px rgba(0, 0, 0, 0.4),
-                -4px -4px 10px rgba(255, 255, 255, 0.04),
-                inset 2px 2px 6px rgba(255, 255, 255, 0.08);
-            color: var(--accent);
+        .navigation-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        /* 📝 Form Container */
-        .form-container {
+        /* 📦 Form Container */
+        .form-wrapper {
             width: 100%;
-            max-width: 600px;
-            padding: 4rem 1rem;
+            max-width: 650px;
+            /* Slightly tighter since there are no side-by-side dynamic buttons */
+            padding: 3rem 2rem;
             box-sizing: border-box;
         }
 
@@ -114,188 +86,187 @@
             margin-bottom: 3rem;
         }
 
-        .form-header h2 {
+        .form-header h1 {
             font-size: 2.5rem;
+            font-weight: 800;
             margin: 0;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+            color: var(--text-main);
         }
 
         .form-header p {
             color: var(--text-muted);
-            font-size: 1.1rem;
             margin-top: 0.5rem;
         }
 
-        /* 🧸 Clay Form Card */
-        .clay-form-card {
-            background: var(--bg-surface);
-            border-radius: 28px;
+        /* 🃏 Flat Dark Form Card */
+        .log-day-form {
+            background-color: var(--bg-card);
+            border-radius: 16px;
             padding: 2.5rem;
-            box-shadow: var(--clay-shadow);
-        }
-
-        .form-group {
-            margin-bottom: 1.8rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 🕳️ Inset Inputs */
-        .clay-input {
-            width: 100%;
-            background: var(--bg-surface);
-            border: none;
-            color: var(--text-main);
-            padding: 1.2rem;
-            border-radius: 16px;
-            font-size: 1rem;
-            font-family: inherit;
-            box-sizing: border-box;
-            box-shadow: var(--clay-inset);
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        .clay-input::placeholder {
-            color: #64748b;
-        }
-
-        .clay-input:focus {
-            box-shadow: var(--clay-inset-focus);
-            background: #2a2c42;
-        }
-
-        textarea.clay-input {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        /* 🚀 Clay Submit Button */
-        .clay-submit {
-            width: 100%;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 1.2rem;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            margin-top: 1rem;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            box-shadow:
-                6px 6px 12px rgba(0, 0, 0, 0.4),
-                -4px -4px 10px rgba(255, 255, 255, 0.1),
-                inset 2px 2px 6px rgba(255, 255, 255, 0.2),
-                inset -2px -2px 6px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .clay-submit:hover {
-            background: var(--accent-hover);
-            transform: translateY(-3px);
-            box-shadow:
-                8px 8px 16px rgba(0, 0, 0, 0.5),
-                -4px -4px 12px rgba(255, 255, 255, 0.15),
-                inset 2px 2px 8px rgba(255, 255, 255, 0.3),
-                inset -2px -2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .clay-submit:active {
-            transform: translateY(2px);
-            box-shadow: var(--clay-inset);
-        }
-
-        /* Two column layout for day/date */
-        .row-group {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
             display: flex;
-            gap: 1.5rem;
+            flex-direction: column;
+            gap: 1.8rem;
         }
 
-        .row-group .form-group {
+        /* 📝 Input Styling */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .input-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .base-input {
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .base-input:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px rgba(157, 124, 255, 0.15);
+        }
+
+        /* 🔽 Custom Multi-Select */
+        select[multiple] {
+            height: 180px;
+            padding: 0.5rem;
+        }
+
+        select[multiple] option {
+            padding: 0.8rem 1rem;
+            margin-bottom: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        select[multiple] option:checked {
+            background-color: var(--accent-brand);
+            color: white;
+        }
+
+        select:not([multiple]) option {
+            background-color: var(--bg-card);
+        }
+
+        /* 🔄 Flex row for Question + Difficulty */
+        .question-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .question-input {
+            flex: 2;
+        }
+
+        .difficulty-select {
             flex: 1;
+        }
+
+        /* 🚀 Submit Button */
+        .btn-submit {
+            background-color: var(--accent-brand);
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 0.5rem;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(157, 124, 255, 0.3);
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">ProgressHub</div>
-        <div class="nav-links">
-            <a href="/<%= username %>">🏠 Dashboard</a>
-            <a href="/login">🚪 Switch User</a>
+    <nav class="dashboard-nav">
+        <a href="/<%= username %>" class="brand-title">ProgressHub</a>
+        <div class="navigation-links">
+            <a href="/<%= username %>">⬅️ Back to Dashboard</a>
         </div>
     </nav>
 
-    <div class="form-container">
-        <div class="form-header">
-            <h2>Log Your Progress ✍️</h2>
-            <p>What did you conquer today?</p>
-        </div>
+    <div class="form-wrapper">
+        <header class="form-header">
+            <h1>Log a New Day 🚀</h1>
+            <p>Keep the streak alive, <%= username %>!</p>
+        </header>
 
-        <div class="clay-form-card">
-            <form action="/<%= username %>/newday" method="POST">
+        <form class="log-day-form" action="/<%= username %>/newday" method="POST">
 
-                <div class="row-group">
-                    <div class="form-group">
-                        <label for="dayNumber">Day Number 🔢</label>
-                        <input type="number" id="dayNumber" name="day" class="clay-input" placeholder="e.g., 42"
-                            required min="1">
-                    </div>
+            <div class="input-group">
+                <label class="input-label">Topics Covered 📚 (Hold Ctrl/Cmd to select multiple)</label>
+                <select name="topics[]" multiple class="base-input" required>
+                    <option value="Arrays">Arrays</option>
+                    <option value="Strings">Strings</option>
+                    <option value="Numbers">Numbers</option>
+                    <option value="Linked Lists">Linked Lists</option>
+                    <option value="Stacks">Stacks</option>
+                    <option value="Queues">Queues</option>
+                    <option value="HashMaps">HashMaps</option>
+                    <option value="Trees">Trees</option>
+                    <option value="Graphs">Graphs</option>
+                    <option value="Heaps">Heaps / Priority Queues</option>
+                    <option value="Matrices">Matrices</option>
+                    <option value="Dynamic Programming">Dynamic Programming</option>
+                    <option value="Math">Math</option>
+                </select>
+            </div>
 
-                    <div class="form-group">
-                        <label for="dateLog">Date 📅</label>
-                        <input type="date" id="dateLog" name="date" class="clay-input" required>
-                    </div>
+            <div class="input-group">
+                <label class="input-label">Day Number 📅</label>
+                <input type="number" name="day" class="base-input" placeholder="e.g. 4" required>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">LeetCode Number 🔢</label>
+                <input type="number" name="leetcodeNum[]" class="base-input" placeholder="e.g. 1" required>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Question Solved 💡</label>
+                <div class="question-row">
+                    <input type="text" name="questions[0][q]" class="base-input question-input"
+                        placeholder="Question Title (e.g. Two Sum)" required>
+                    <select name="questions[0][difficulty]" class="base-input difficulty-select" required>
+                        <option value="Easy">Easy 🟢</option>
+                        <option value="Medium">Medium 🟡</option>
+                        <option value="Hard">Hard 🔴</option>
+                    </select>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="topicsCovered">Topics Covered 📚</label>
-                    <input type="text" id="topicsCovered" name="topics" class="clay-input"
-                        placeholder="React, Node.js, CSS... (comma separated)">
-                </div>
+            <div class="input-group">
+                <label class="input-label">Algorithm Implemented ⚙️</label>
+                <input type="text" name="algorithms[]" class="base-input" placeholder="e.g. Binary Search" required>
+            </div>
 
-                <div class="form-group">
-                    <label for="questionsSolved">Questions Solved 💡</label>
-                    <textarea id="questionsSolved" name="questions" class="clay-input"
-                        placeholder="Two Sum, Reverse Linked List... (comma separated)"></textarea>
-                </div>
-
-                <div class="row-group">
-                    <div class="form-group">
-                        <label for="questionDifficulty">Difficulty Level 🎯</label>
-                        <select id="questionDifficulty" name="difficulty" class="clay-input">
-                            <option value="Easy">Easy</option>
-                            <option value="Medium">Medium</option>
-                            <option value="Hard">Hard</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="leetcodeNumber">LeetCode Number 🔢</label>
-                        <input type="text" id="leetcodeNumber" name="leetcodeNum" class="clay-input"
-                            placeholder="e.g., 1, 2, 3">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="algorithmsUsed">Algorithms Implemented ⚙️</label>
-                    <input type="text" id="algorithmsUsed" name="algorithms" class="clay-input"
-                        placeholder="Binary Search, DFS... (comma separated)">
-                </div>
-
-                <button type="submit" class="clay-submit">💾 Save Progress</button>
-            </form>
-        </div>
+            <button type="submit" class="btn-submit">💾 Save Progress</button>
+        </form>
     </div>
 </body>
 

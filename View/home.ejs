@@ -7,28 +7,44 @@
     <title>Progress Dashboard</title>
 
     <style>
-        /* 🎨 Modern CSS Variables */
+        /* 🎨 Clean Dark Theme Variables */
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a, #1e1b4b);
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #8b5cf6;
-            --badge-topic: rgba(139, 92, 246, 0.2);
-            --badge-topic-border: rgba(139, 92, 246, 0.5);
-            --badge-question: rgba(59, 130, 246, 0.2);
-            --badge-question-border: rgba(59, 130, 246, 0.5);
-            --badge-algo: rgba(16, 185, 129, 0.2);
-            --badge-algo-border: rgba(16, 185, 129, 0.5);
+            /* Backgrounds */
+            --bg-main: #131426;
+            --bg-card: #1c1d36;
+            --bg-nav-button: #242645;
+            --bg-date: #2c2d4a;
+
+            /* Text Colors */
+            --text-main: #ffffff;
+            --text-muted: #8a8ca3;
+
+            /* Accent Colors */
+            --accent-brand: #9d7cff;
+            /* ProgressHub Purple */
+            --accent-day: #c084fc;
+            /* Day Header Purple */
+
+            /* Badge Colors (Backgrounds and Borders) */
+            --badge-topic-bg: rgba(168, 85, 247, 0.15);
+            --badge-topic-border: rgba(168, 85, 247, 0.3);
+            --badge-topic-text: #d8b4fe;
+
+            --badge-algorithm-bg: rgba(16, 185, 129, 0.15);
+            --badge-algorithm-border: rgba(16, 185, 129, 0.3);
+            --badge-algorithm-text: #6ee7b7;
+
+            /* Leetcode Colors (Orange) */
+            --badge-leetcode-bg: rgba(249, 115, 22, 0.15);
+            --badge-leetcode-border: rgba(249, 115, 22, 0.3);
+            --badge-leetcode-text: #fb923c;
         }
 
-        /* 🌌 Background and Base Styles */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--bg-gradient);
+            background-color: var(--bg-main);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -36,272 +52,380 @@
             align-items: center;
         }
 
-        /* 🧭 Glassmorphism Navbar */
-        .navbar {
+        /* 🧭 Standard Top Navbar */
+        .dashboard-nav {
             width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--card-border);
-            padding: 1rem 2rem;
+            background-color: var(--bg-main);
+            padding: 1.2rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-sizing: border-box;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .nav-brand {
-            font-size: 1.5rem;
+        .brand-title {
+            font-size: 1.4rem;
             font-weight: 800;
-            background: linear-gradient(to right, #a855f7, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--accent-brand);
+            letter-spacing: 0.5px;
         }
 
-        .nav-links {
+        .navigation-links {
             display: flex;
             gap: 1rem;
         }
 
-        .nav-links a {
+        .navigation-links a {
             text-decoration: none;
             color: var(--text-main);
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            background: var(--bg-nav-button);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            transition: background 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .nav-links a:hover {
+        .navigation-links a:hover {
             background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
         }
 
         /* 📦 Main Container */
-        .dashboard-container {
+        .main-content-wrapper {
             width: 100%;
-            max-width: 1200px;
-            padding: 3rem 1rem;
+            max-width: 1300px;
+            padding: 3rem 2rem;
             box-sizing: border-box;
         }
 
-        header {
+        .welcome-header {
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 4rem;
         }
 
-        header h1 {
-            font-size: 3rem;
+        .welcome-header h1 {
+            font-size: 2.8rem;
             font-weight: 800;
             margin: 0;
-            letter-spacing: -1px;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
         }
 
-        /* 📊 The Grid System for the Cards */
-        .progress-grid {
+        /* 📊 Grid System */
+        .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
             gap: 2rem;
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        /* 🪟 Glassmorphism Cards */
-        .progress-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 1.8rem;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        /* 🃏 Flat Dark Cards */
+        .progress-item-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .progress-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
-            border-color: rgba(139, 92, 246, 0.5);
+        .progress-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* 📌 Card Header & Date Badge */
-        .card-header {
+        /* 📌 Card Header */
+        .card-title-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 0.8rem;
-            margin-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1.2rem;
+            margin-bottom: 0.5rem;
         }
 
-        .progress-card h5 {
-            font-size: 1.4rem;
+        .day-heading {
+            font-size: 1.5rem;
             margin: 0;
-            color: var(--accent);
+            font-weight: 700;
+            color: var(--accent-day);
         }
 
-        .date-badge {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+        .date-pill {
+            background-color: var(--bg-date);
             color: var(--text-muted);
-            padding: 0.3rem 0.7rem;
-            border-radius: 12px;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* 📝 Badge System */
-        .data-row {
-            margin-bottom: 1.2rem;
+        /* 📝 Data Rows & Typography */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
         }
 
-        .data-label {
+        .section-label {
             font-weight: 600;
             color: var(--text-muted);
-            display: block;
-            margin-bottom: 0.6rem;
-            text-transform: uppercase;
             font-size: 0.75rem;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .badge-container {
+        .pill-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
-        .badge {
-            padding: 0.3rem 0.8rem;
+        /* 🏷️ Standardized Base Pill */
+        .content-pill {
+            padding: 0.4rem 1rem;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 500;
             border: 1px solid;
+            cursor: default;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Color Coding the Badges! 🎨 */
-        .badge-topic {
-            background: var(--badge-topic);
+        .content-pill:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 🎨 Color-Coded Pills & Hover Effects */
+
+        /* Topics: Purple */
+        .pill-topic {
+            background-color: var(--badge-topic-bg);
             border-color: var(--badge-topic-border);
-            color: #d8b4fe;
+            color: var(--badge-topic-text);
         }
 
-        .badge-question {
-            background: var(--badge-question);
-            border-color: var(--badge-question-border);
-            color: #93c5fd;
+        .pill-topic:hover {
+            background-color: rgba(168, 85, 247, 0.25);
+            border-color: rgba(168, 85, 247, 0.7);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+            color: #ffffff;
         }
 
-        .badge-algo {
-            background: var(--badge-algo);
-            border-color: var(--badge-algo-border);
-            color: #6ee7b7;
+        /* Algorithms: Green */
+        .pill-algorithm {
+            background-color: var(--badge-algorithm-bg);
+            border-color: var(--badge-algorithm-border);
+            color: var(--badge-algorithm-text);
+        }
+
+        .pill-algorithm:hover {
+            background-color: rgba(16, 185, 129, 0.25);
+            border-color: rgba(16, 185, 129, 0.7);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+            color: #ffffff;
+        }
+
+        /* Leetcode Numbers: Orange */
+        .pill-leetcode {
+            background-color: var(--badge-leetcode-bg);
+            border-color: var(--badge-leetcode-border);
+            color: var(--badge-leetcode-text);
+            font-weight: 700;
+        }
+
+        .pill-leetcode:hover {
+            background-color: rgba(249, 115, 22, 0.25);
+            border-color: rgba(249, 115, 22, 0.7);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
+            color: #ffffff;
+        }
+
+        /* 🚥 Default Difficulty Colors for Questions! */
+        .pill-difficulty-Easy {
+            background-color: rgba(74, 222, 128, 0.15);
+            border-color: rgba(74, 222, 128, 0.3);
+            color: #4ade80;
+        }
+
+        .pill-difficulty-Easy:hover {
+            background-color: rgba(74, 222, 128, 0.25);
+            border-color: #4ade80;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(74, 222, 128, 0.2);
+        }
+
+        .pill-difficulty-Medium {
+            background-color: rgba(250, 204, 21, 0.15);
+            border-color: rgba(250, 204, 21, 0.3);
+            color: #facc15;
+        }
+
+        .pill-difficulty-Medium:hover {
+            background-color: rgba(250, 204, 21, 0.25);
+            border-color: #facc15;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(250, 204, 21, 0.2);
+        }
+
+        .pill-difficulty-Hard {
+            background-color: rgba(248, 113, 113, 0.15);
+            border-color: rgba(248, 113, 113, 0.3);
+            color: #f87171;
+        }
+
+        .pill-difficulty-Hard:hover {
+            background-color: rgba(248, 113, 113, 0.25);
+            border-color: #f87171;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(248, 113, 113, 0.2);
         }
 
         /* 📭 Empty State */
-        .empty-state {
+        .no-data-state {
             text-align: center;
             padding: 4rem 2rem;
-            background: var(--card-bg);
+            background-color: var(--bg-card);
             border-radius: 20px;
-            border: 1px solid var(--card-border);
             max-width: 500px;
             margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .no-data-state h2 {
+            color: var(--accent-brand);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .no-data-state p {
+            color: var(--text-muted);
+            font-size: 1rem;
         }
     </style>
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="nav-brand">ProgressHub</div>
-        <div class="nav-links">
+    <nav class="dashboard-nav">
+        <div class="brand-title">ProgressHub</div>
+        <div class="navigation-links">
             <a href="/<%= username %>/newday">➕ Log New Day</a>
             <a href="/<%= username %>/update">🔄 Update Day</a>
             <a href="/login">🚪 Switch User</a>
         </div>
     </nav>
 
-    <div class="dashboard-container">
-        <header>
+    <div class="main-content-wrapper">
+        <header class="welcome-header">
             <h1>Welcome, <%= username %>! 👋</h1>
         </header>
 
         <% if (userProgressList.length===0) { %>
-            <div class="empty-state">
+            <div class="no-data-state">
                 <h2>No progress data yet! 🌱</h2>
                 <p>Time to start logging your coding journey.</p>
             </div>
             <% } else { %>
-                <ul class="progress-grid">
-                    <% userProgressList.forEach(progress=> { %>
-                        <li class="progress-card">
+                <ul class="cards-grid">
+                    <% userProgressList.forEach(progressRecord=> { %>
+                        <li class="progress-item-card">
 
-                            <div class="card-header">
-                                <h5>Day <%= progress.day %> 🚀</h5>
-                                <% if (progress.date) { let displayDate=progress.date; const parsedDate=new
-                                    Date(progress.date); /* Check if the date is valid before formatting */ if
-                                    (!isNaN(parsedDate.getTime())) { /* 'en-GB' formats it as Day Month (e.g., "2 July"
-                                    ) */ displayDate=parsedDate.toLocaleDateString('en-GB', { day: 'numeric' ,
+                            <div class="card-title-container">
+                                <h5 class="day-heading">Day <%= progressRecord.day %> 🚀</h5>
+                                <% if (progressRecord.date) { let formattedDisplayDate=progressRecord.date; const
+                                    dateObject=new Date(progressRecord.date); if (!isNaN(dateObject.getTime())) {
+                                    formattedDisplayDate=dateObject.toLocaleDateString('en-GB', { day: 'numeric' ,
                                     month: 'long' }); } %>
-                                    <span class="date-badge">📅 <%= displayDate %></span>
+                                    <span class="date-pill">📅 <%= formattedDisplayDate %></span>
                                     <% } %>
                             </div>
 
-                            <div class="data-row">
-                                <span class="data-label">Topics Covered 📚</span>
-                                <div class="badge-container">
-                                    <% if (progress.topics && progress.topics.length> 0) { %>
-                                        <% [...new Set(progress.topics)].forEach(uniqueTopic=> { %>
-                                            <span class="badge badge-topic">
-                                                <%= uniqueTopic %>
+                            <div class="info-section">
+                                <span class="section-label">TOPICS COVERED 📚</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.topics && progressRecord.topics.length> 0) { %>
+                                        <% [...new Set(progressRecord.topics)].forEach(topicName=> { %>
+                                            <span class="content-pill pill-topic">
+                                                <%= topicName %>
                                             </span>
                                             <% }); %>
                                                 <% } else { %>
-                                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None
-                                                        recorded</span>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
                                                     <% } %>
                                 </div>
                             </div>
 
-                            <div class="data-row">
-                                <span class="data-label">Questions Solved 💡</span>
-                                <div class="badge-container">
-                                    <% if (progress.questions && progress.questions.length> 0) { %>
-                                        <% [...new Set(progress.questions)].forEach(uniqueQuestion=> { %>
-                                            <span class="badge badge-question">
-                                                <%= uniqueQuestion %>
+                            <!-- 🔢 New LeetCode Numbers Section -->
+                            <div class="info-section">
+                                <span class="section-label">LEETCODE NUMBERS 🔢</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.leetcodeNum && progressRecord.leetcodeNum.length> 0) { %>
+                                        <% [...new Set(progressRecord.leetcodeNum)].forEach(leetcodeNumber=> { %>
+                                            <span class="content-pill pill-leetcode">
+                                                #<%= leetcodeNumber %>
                                             </span>
                                             <% }); %>
                                                 <% } else { %>
-                                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None
-                                                        recorded</span>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
                                                     <% } %>
                                 </div>
                             </div>
 
-                            <div class="data-row">
-                                <span class="data-label">Algorithms Implemented ⚙️</span>
-                                <div class="badge-container">
-                                    <% if (progress.algorithms && progress.algorithms.length> 0) { %>
-                                        <% [...new Set(progress.algorithms)].forEach(uniqueAlgorithm=> { %>
-                                            <span class="badge badge-algo">
-                                                <%= uniqueAlgorithm %>
+                            <div class="info-section">
+                                <span class="section-label">QUESTIONS SOLVED 💡</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.questions && progressRecord.questions.length> 0) { %>
+                                        <% const filteredQuestions=[]; const processedQuestionTitles=new Set();
+                                            progressRecord.questions.forEach(questionObj=> {
+                                            if (!processedQuestionTitles.has(questionObj.q)) {
+                                            processedQuestionTitles.add(questionObj.q);
+                                            filteredQuestions.push(questionObj);
+                                            }
+                                            });
+                                            %>
+                                            <% filteredQuestions.forEach(questionItem=> { %>
+                                                <!-- The Difficulty Class applies by default now! 🚥 -->
+                                                <span
+                                                    class="content-pill pill-difficulty-<%= questionItem.difficulty %>">
+                                                    <%= questionItem.q %>
+                                                </span>
+                                                <% }); %>
+                                                    <% } else { %>
+                                                        <span
+                                                            style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
+                                                        <% } %>
+                                </div>
+                            </div>
+
+                            <div class="info-section">
+                                <span class="section-label">ALGORITHMS IMPLEMENTED ⚙️</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.algorithms && progressRecord.algorithms.length> 0) { %>
+                                        <% [...new Set(progressRecord.algorithms)].forEach(algorithmName=> { %>
+                                            <span class="content-pill pill-algorithm">
+                                                <%= algorithmName %>
                                             </span>
                                             <% }); %>
                                                 <% } else { %>
-                                                    <span style="color: var(--text-muted); font-size: 0.9rem;">None
-                                                        recorded</span>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
                                                     <% } %>
                                 </div>
                             </div>
+
                         </li>
                         <% }); %>
                 </ul>

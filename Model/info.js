@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose")
+const { Schema, model } = require("mongoose");
 
 const infoSchema = new Schema({
     username: {
@@ -13,19 +13,30 @@ const infoSchema = new Schema({
         type: String,
         required: true
     },
+    leetcodeNum: [{
+        type: Number,
+        required: true
+    }],
     topics: [{
         type: String,
     }],
     questions: [{
-        type: String,
-        required: true
+        q: {
+            type: String,
+            required: true
+        },
+        difficulty: {
+            type: String,
+            enum: ["Easy", "Medium", "Hard"],
+            required: true
+        }
     }],
     algorithms: [{
         type: String,
         required: true
     }]
-})
+});
 
-const INFO = model("INFO", infoSchema)
+const INFO = model("INFO", infoSchema);
 
-module.exports = { INFO }
+module.exports = { INFO };

@@ -206,14 +206,16 @@
     <nav class="dashboard-nav">
         <a href="/<%= username %>" class="brand-title">ProgressHub</a>
         <div class="navigation-links">
-            <a href="/<%= username %>">⬅️ Back to Dashboard</a>
+            <a href="/<%= username %>">💻 DSA Dashboard</a>
+            <a href="/timetable/dashboard/<%= username %>">📊 Timetable Dashboard</a>
+            <a href="/timetable/<%= username %>">🗓️ Timetable</a>
         </div>
     </nav>
 
     <div class="form-wrapper">
         <header class="form-header">
             <h1>Log a New Day 🚀</h1>
-            <p>Keep the streak alive, <%= username %>!</p>
+            <p>Keep the progress going, <%= username %>!</p>
         </header>
 
         <form class="log-day-form" action="/<%= username %>/newday" method="POST">

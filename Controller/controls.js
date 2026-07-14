@@ -20,15 +20,18 @@ async function setUsername(req, res) {
 
         if (!newUsername) return res.status(400).send("A valid username is required! 🛑");
 
-        await INFO.create({
-            username: newUsername,
-            day: "1",
-            date: new Date().toLocaleDateString(),
-            leetcodeNum: [],
-            topics: [],
-            questions: [],
-            algorithms: []
-        });
+        const existingUser = await INFO.findOne({ username: newUsername });
+        if (!existingUser) {
+            await INFO.create({
+                username: newUsername,
+                day: "1",
+                date: new Date().toLocaleDateString(),
+                leetcodeNum: [],
+                topics: [],
+                questions: [],
+                algorithms: []
+            });
+        }
 
         res.redirect(`/${newUsername}`);
     } catch (error) {

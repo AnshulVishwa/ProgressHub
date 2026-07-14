@@ -13,13 +13,14 @@ const infoSchema = new Schema({
         type: String,
         required: true
     },
-    leetcodeNum: [{
-        type: Number,
-        required: true
-    }],
-    topics: [{
-        type: String,
-    }],
+    leetcodeNum: {
+        type: [Number],
+        default: []
+    },
+    topics: {
+        type: [String],
+        default: []
+    },
     questions: [{
         q: {
             type: String,
@@ -31,10 +32,10 @@ const infoSchema = new Schema({
             required: true
         }
     }],
-    algorithms: [{
-        type: String,
-        required: true
-    }]
+    algorithms: {
+        type: [String],
+        default: []
+    }
 });
 
 const INFO = model("INFO", infoSchema);

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgressHub: Timetable</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .nav-btn {
+            background: rgba(51, 65, 85, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .toggle-btn {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .toggle-btn.active-weekday {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+            border-color: transparent;
+        }
+        .toggle-btn.active-weekend {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.5);
+            border-color: transparent;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="bg-[#0f172a] text-gray-100 font-sans min-h-screen bg-gradient-to-br from-[#0f172a] via-[#1e1b4b] to-[#0f172a] bg-fixed">
+
+    <nav class="w-full glass-panel p-4 flex justify-between items-center shadow-lg sticky top-0 z-50">
+        <div class="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 tracking-wide">
+            ProgressHub
+        </div>
+        <div class="flex gap-3 flex-wrap justify-end">
+            <a href="/<%= username %>" class="nav-btn text-gray-200 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2">
+                💻 DSA Dashboard
+            </a>
+            <a href="/timetable/dashboard/<%= username %>" class="nav-btn text-gray-200 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2">
+                📊 Timetable Dashboard
+            </a>
+            <a href="/timetable/<%= username %>" class="nav-btn text-blue-400 border-blue-400/30 bg-blue-500/10 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2">
+                🗓️ Timetable
+            </a>
+            <a href="/<%= username %>/newday" class="nav-btn text-gray-200 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2">
+                ➕ Log New Day
+            </a>
+            <a href="/<%= username %>/update" class="nav-btn text-gray-200 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2">
+                🔄 Update Day
+            </a>
+            <a href="/" class="nav-btn text-gray-200 px-4 py-2 rounded-xl font-medium text-sm flex items-center gap-2">
+                🚪 Switch User
+            </a>
+        </div>
+    </nav>
+
+    <div class="p-6">
+        <div class="text-center mb-10 mt-6">
+            <h1 class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400 mb-3">
+                Log Your Timetable 🗓️
+            </h1>
+            <p class="text-gray-400 text-lg">Track your daily hours and build consistency.</p>
+        </div>
+
+        <!-- Buttons instead of Select -->
+        <div class="max-w-xl mx-auto mb-12 flex justify-center gap-6">
+            <button id="btnWeekday" class="toggle-btn w-48 py-4 px-6 rounded-2xl border border-gray-700 bg-[#1e293b]/50 text-gray-300 font-semibold text-lg flex flex-col items-center gap-2 hover:bg-[#334155]/80">
+                <span class="text-2xl">🏫</span>
+                <span>Weekday</span>
+            </button>
+            
+            <button id="btnWeekend" class="toggle-btn w-48 py-4 px-6 rounded-2xl border border-gray-700 bg-[#1e293b]/50 text-gray-300 font-semibold text-lg flex flex-col items-center gap-2 hover:bg-[#334155]/80">
+                <span class="text-2xl">🏖️</span>
+                <span>Weekend</span>
+            </button>
+        </div>
+
+        <div class="max-w-4xl mx-auto flex flex-col gap-8 justify-center items-center">
+
+            <!-- Weekday Section -->
+            <div id="weekdayForm" class="hidden w-full glass-panel p-8 rounded-3xl shadow-2xl">
+                <div class="mb-8 border-b border-gray-700 pb-4">
+                    <h2 class="text-3xl font-bold text-blue-400 mb-2">Weekday Routine 🏫</h2>
+                    <p class="text-gray-400">Post-college study hours log.</p>
+                </div>
+
+                <form action="/timetable/update/<%= username %>" method="POST" class="space-y-5">
+                    <input type="hidden" name="dayClassification" value="Weekday">
+
+                    <% if (weekdaySubjects && weekdaySubjects.length> 0) { %>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <% weekdaySubjects.forEach(subject=> { %>
+                                <div class="bg-[#0f172a]/60 p-5 rounded-2xl border border-gray-700/50 hover:border-blue-500/50 transition-colors flex flex-col justify-between">
+                                    <div class="mb-4">
+                                        <h3 class="font-bold text-gray-100 text-lg"><%= subject.subjectName %></h3>
+                                        <span class="inline-block mt-1 px-3 py-1 bg-blue-500/10 text-blue-400 text-xs rounded-full border border-blue-500/20">
+                                            <%= subject.preferredTimeOfDay %>
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-400 font-medium">Time Spent (hrs):</label>
+                                        <input type="number" name="timeSpent_<%= subject._id %>"
+                                            value="<%= subject.timeSpentInHours %>" step="0.5" min="0"
+                                            class="w-24 p-2 bg-[#1e293b] border border-gray-600 rounded-lg text-center text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow">
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } else { %>
+                        <div class="p-8 text-center bg-[#0f172a]/40 rounded-2xl border border-gray-700/50">
+                            <p class="text-gray-400 italic">No weekday subjects found. Please initialize data.</p>
+                        </div>
+                    <% } %>
+
+                    <button type="submit"
+                        class="w-full mt-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-blue-500/30 transform hover:-translate-y-1">
+                        Save Weekday Progress ✅
+                    </button>
+                </form>
+            </div>
+
+            <!-- Weekend / Holiday Section -->
+            <div id="weekendForm" class="hidden w-full glass-panel p-8 rounded-3xl shadow-2xl">
+                <div class="mb-8 border-b border-gray-700 pb-4">
+                    <h2 class="text-3xl font-bold text-green-400 mb-2">Weekend & Holidays 🏖️</h2>
+                    <p class="text-gray-400">Deep focus and long study hours.</p>
+                </div>
+
+                <form action="/timetable/update/<%= username %>" method="POST" class="space-y-5">
+                    <input type="hidden" name="dayClassification" value="Weekend">
+
+                    <% if (weekendSubjects && weekendSubjects.length> 0) { %>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <% weekendSubjects.forEach(subject=> { %>
+                                <div class="bg-[#0f172a]/60 p-5 rounded-2xl border border-gray-700/50 hover:border-green-500/50 transition-colors flex flex-col justify-between">
+                                    <div class="mb-4">
+                                        <h3 class="font-bold text-gray-100 text-lg"><%= subject.subjectName %></h3>
+                                        <span class="inline-block mt-1 px-3 py-1 bg-green-500/10 text-green-400 text-xs rounded-full border border-green-500/20">
+                                            Target: <%= subject.allocatedTimeInHours %> hrs
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <label class="text-sm text-gray-400 font-medium">Time Spent (hrs):</label>
+                                        <input type="number" name="timeSpent_<%= subject._id %>"
+                                            value="<%= subject.timeSpentInHours %>" step="0.5" min="0"
+                                            class="w-24 p-2 bg-[#1e293b] border border-gray-600 rounded-lg text-center text-white focus:outline-none focus:ring-2 focus:ring-green-500 transition-shadow">
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } else { %>
+                        <div class="p-8 text-center bg-[#0f172a]/40 rounded-2xl border border-gray-700/50">
+                            <p class="text-gray-400 italic">No weekend subjects found. Please initialize data.</p>
+                        </div>
+                    <% } %>
+
+                    <button type="submit"
+                        class="w-full mt-6 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1">
+                        Save Weekend Progress ✅
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const btnWeekday = document.getElementById('btnWeekday');
+        const btnWeekend = document.getElementById('btnWeekend');
+        const weekdayForm = document.getElementById('weekdayForm');
+        const weekendForm = document.getElementById('weekendForm');
+
+        function hideAll() {
+            weekdayForm.classList.add('hidden');
+            weekdayForm.classList.remove('fade-in');
+            weekendForm.classList.add('hidden');
+            weekendForm.classList.remove('fade-in');
+            
+            btnWeekday.classList.remove('active-weekday');
+            btnWeekend.classList.remove('active-weekend');
+        }
+
+        btnWeekday.addEventListener('click', () => {
+            hideAll();
+            weekdayForm.classList.remove('hidden');
+            // Small delay to allow display:block to apply before animation
+            setTimeout(() => weekdayForm.classList.add('fade-in'), 10);
+            btnWeekday.classList.add('active-weekday');
+        });
+
+        btnWeekend.addEventListener('click', () => {
+            hideAll();
+            weekendForm.classList.remove('hidden');
+            setTimeout(() => weekendForm.classList.add('fade-in'), 10);
+            btnWeekend.classList.add('active-weekend');
+        });
+    </script>
+</body>
+
+</html>

@@ -8,6 +8,7 @@ const connectDB = require("./connect");
 const route = require("./Route/route");
 const path = require("path");
 const { bulkInsertData } = require('./Controller/controls');
+const tableRouter = require('./Route/timetable');
 const app = express();
 
 app.set("view engine", "ejs");
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 connectDB();
 
+app.use("/timetable", tableRouter)
 app.use("/", route);
 
 app.listen(

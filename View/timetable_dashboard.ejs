@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Dashboard</title>
+    <style>
+        /* 🎨 Clean Dark Theme Variables */
+        :root {
+            var(--bg-main): #131426;
+            --bg-main: #131426;
+            --bg-card: #1c1d36;
+            --bg-nav-button: #242645;
+            --bg-date: #2c2d4a;
+            --text-main: #ffffff;
+            --text-muted: #8a8ca3;
+            --accent-brand: #9d7cff;
+            --accent-day: #c084fc;
+            --badge-topic-bg: rgba(168, 85, 247, 0.15);
+            --badge-topic-border: rgba(168, 85, 247, 0.3);
+            --badge-topic-text: #d8b4fe;
+            --badge-algorithm-bg: rgba(16, 185, 129, 0.15);
+            --badge-algorithm-border: rgba(16, 185, 129, 0.3);
+            --badge-algorithm-text: #6ee7b7;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 🧭 Standard Top Navbar */
+        .dashboard-nav {
+            width: 100%;
+            background-color: var(--bg-main);
+            padding: 1.2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-brand);
+            letter-spacing: 0.5px;
+        }
+
+        .navigation-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .navigation-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            background: var(--bg-nav-button);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navigation-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* 📦 Main Container */
+        .main-content-wrapper {
+            width: 100%;
+            max-width: 1300px;
+            padding: 3rem 2rem;
+            box-sizing: border-box;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .welcome-header h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        /* 📊 Grid System */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 🃏 Flat Dark Cards */
+        .progress-item-card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .progress-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 📌 Card Header */
+        .card-title-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .day-heading {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 700;
+            color: var(--accent-day);
+        }
+
+        .date-pill {
+            background-color: var(--bg-date);
+            color: var(--text-muted);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* 📝 Data Rows & Typography */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .section-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .pill-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        /* 🏷️ Standardized Base Pill */
+        .content-pill {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid;
+            cursor: default;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pill-topic {
+            background-color: var(--badge-topic-bg);
+            border-color: var(--badge-topic-border);
+            color: var(--badge-topic-text);
+        }
+
+        .pill-algorithm {
+            background-color: var(--badge-algorithm-bg);
+            border-color: var(--badge-algorithm-border);
+            color: var(--badge-algorithm-text);
+        }
+
+        /* 📭 Empty State */
+        .no-data-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: var(--bg-card);
+            border-radius: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="dashboard-nav">
+        <div class="brand-title">ProgressHub</div>
+        <div class="navigation-links">
+            <!-- 🔗 Exact Routes Mapped Properly! -->
+            <a href="/<%= username %>">💻 DSA Dashboard</a>
+            <a href="/timetable/dashboard/<%= username %>">📊 Timetable</a>
+            <a href="/timetable/<%= username %>/new">➕ Log Timetable</a>
+            <a href="/<%= username %>/newday">➕ Log DSA Day</a>
+            <a href="/">🚪 Switch User</a>
+        </div>
+    </nav>
+
+    <div class="main-content-wrapper">
+        <header class="welcome-header">
+            <h1>Your Timeline, <%= username %>! ⏳</h1>
+        </header>
+
+        <% if (timelineList.length===0) { %>
+            <div class="no-data-state">
+                <h2>No schedule data yet! 🗓️</h2>
+                <p>Time to map out your study sessions.</p>
+            </div>
+            <% } else { %>
+                <ul class="cards-grid">
+                    <% timelineList.forEach(dailySchedule=> { %>
+                        <li class="progress-item-card">
+
+                            <div class="card-title-container">
+                                <h5 class="day-heading">Day <%= dailySchedule.dayNumber %> 🚀</h5>
+                                <span class="date-pill">📅 <%= dailySchedule.date %></span>
+                            </div>
+
+                            <!-- 🎛️ Shows Weekday or Weekend -->
+                            <div class="info-section">
+                                <span class="section-label">DAY TYPE ☀️</span>
+                                <div class="pill-container">
+                                    <span class="content-pill pill-topic">
+                                        <%= dailySchedule.dayType %>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="info-section">
+                                <span class="section-label">STUDY SESSIONS 📚</span>
+                                <div class="pill-container">
+                                    <% if (dailySchedule.studySessions && dailySchedule.studySessions.length> 0) { %>
+                                        <% dailySchedule.studySessions.forEach(session=> { %>
+                                            <span class="content-pill pill-algorithm">
+                                                <%= session.subjectName %> - <%= session.hoursStudied %>hr
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">Rest
+                                                        Day 😴</span>
+                                                    <% } %>
+                                </div>
+                            </div>
+
+                        </li>
+                        <% }); %>
+                </ul>
+                <% } %>
+    </div>
+</body>
+
+</html>

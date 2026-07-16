@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Timetable</title>
+    <style>
+        :root {
+            --bg-main: #131426;
+            --bg-card: #1c1d36;
+            --bg-nav-button: #242645;
+            --text-main: #ffffff;
+            --text-muted: #8a8ca3;
+            --accent-brand: #9d7cff;
+            --accent-day: #c084fc;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dashboard-nav {
+            width: 100%;
+            background-color: var(--bg-main);
+            padding: 1.2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-brand);
+        }
+
+        .navigation-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .navigation-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            background: var(--bg-nav-button);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-container {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            width: 100%;
+            max-width: 600px;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: var(--accent-day);
+            margin-bottom: 2rem;
+        }
+
+        .toggle-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            background: var(--bg-nav-button);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: rgba(168, 85, 247, 0.2);
+            color: #d8b4fe;
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        input[type="number"] {
+            background: var(--bg-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.6rem;
+            border-radius: 6px;
+            width: 80px;
+            text-align: center;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-brand);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #9d7cff 0%, #c084fc 100%);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+
+        h3 {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="dashboard-nav">
+        <div class="brand-title">ProgressHub</div>
+        <div class="navigation-links">
+            <a href="/<%= username %>">💻 DSA Dashboard</a>
+            <a href="/timetable/dashboard/<%= username %>">📊 Timetable</a>
+            <a href="/">🚪 Switch User</a>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h2>Log Timetable for <%= username %> ✍️</h2>
+
+        <div class="toggle-container">
+            <button type="button" class="toggle-btn active" id="btnWeekday" onclick="setDayType('Weekday')">Weekday Mode
+                🏢</button>
+            <button type="button" class="toggle-btn" id="btnWeekend" onclick="setDayType('Weekend')">Weekend Mode
+                🏖️</button>
+        </div>
+
+        <form action="/timetable/<%= username %>/new" method="POST">
+            <input type="hidden" name="dayType" id="dayTypeInput" value="Weekday">
+
+            <div class="input-group"
+                style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3);">
+                <label>Day Number:</label>
+                <input type="number" name="dayNumber" placeholder="Day X" required>
+            </div>
+
+            <!-- WEEKDAY CORE SUBJECTS (Always Visible!) -->
+            <div id="coreSubjectsBlock">
+                <h3>Core Subjects 🧠</h3>
+                <div class="input-group">
+                    <label>Java+DSA</label>
+                    <input type="hidden" name="subjects" value="Java+DSA">
+                    <input type="number" name="hours" placeholder="Hrs">
+                </div>
+
+                <div class="input-group">
+                    <label>Aptitude</label>
+                    <input type="hidden" name="subjects" value="Aptitude">
+                    <input type="number" name="hours" placeholder="Hrs">
+                </div>
+
+                <div class="input-group">
+                    <label>JavaScript</label>
+                    <input type="hidden" name="subjects" value="JavaScript">
+                    <input type="number" name="hours" placeholder="Hrs">
+                </div>
+
+                <div class="input-group">
+                    <label>DBMS with SQL</label>
+                    <input type="hidden" name="subjects" value="DBMS with SQL">
+                    <input type="number" name="hours" placeholder="Hrs">
+                </div>
+            </div>
+
+            <!-- WEEKEND EXTRAS -->
+            <div id="weekendExtrasBlock" style="display: none;">
+                <h3>Weekend Extras 💼</h3>
+                <div class="input-group">
+                    <label>System Design</label>
+                    <input type="hidden" name="subjects" value="System Design">
+                    <input type="number" name="hours" placeholder="Hrs">
+                </div>
+
+                <div class="input-group">
+                    <label>Project Enhancement</label>
+                    <input type="hidden" name="subjects" value="Project Enhancement">
+                    <input type="number" name="hours" placeholder="Hrs">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Save Timeline Day ✅</button>
+        </form>
+    </div>
+
+    <script>
+        function setDayType(type) {
+            document.getElementById('dayTypeInput').value = type;
+
+            const btnWeekday = document.getElementById('btnWeekday');
+            const btnWeekend = document.getElementById('btnWeekend');
+            const extraFields = document.getElementById('weekendExtrasBlock');
+
+            if (type === 'Weekday') {
+                btnWeekday.classList.add('active');
+                btnWeekend.classList.remove('active');
+
+                // Hide extras on weekdays
+                extraFields.style.display = 'none';
+
+                // Clear hidden weekend inputs to prevent ghost data
+                const extraInputs = extraFields.querySelectorAll('input[type="number"]');
+                extraInputs.forEach(input => input.value = '');
+            } else {
+                btnWeekend.classList.add('active');
+                btnWeekday.classList.remove('active');
+
+                // Show extras alongside core on weekends!
+                extraFields.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

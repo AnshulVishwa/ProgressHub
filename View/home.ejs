@@ -322,7 +322,6 @@
         <div class="navigation-links">
             <a href="/<%= username %>">💻 DSA Dashboard</a>
             <a href="/timetable/dashboard/<%= username %>">📊 Timetable Dashboard</a>
-            <a href="/timetable/<%= username %>">🗓️ Timetable</a>
             <a href="/<%= username %>/newday">➕ Log New Day</a>
             <a href="/<%= username %>/update">🔄 Update Day</a>
             <a href="/">🚪 Switch User</a>
@@ -336,107 +335,106 @@
 
 
 
-                <% if (userProgressList.length===0) { %>
-                    <div class="no-data-state">
-                        <h2>No progress data yet! 🌱</h2>
-                        <p>Time to start logging your coding journey.</p>
-                    </div>
-                    <% } else { %>
-                        <ul class="cards-grid">
-                            <% userProgressList.forEach(progressRecord=> { %>
-                                <li class="progress-item-card">
+        <% if (userProgressList.length===0) { %>
+            <div class="no-data-state">
+                <h2>No progress data yet! 🌱</h2>
+                <p>Time to start logging your coding journey.</p>
+            </div>
+            <% } else { %>
+                <ul class="cards-grid">
+                    <% userProgressList.forEach(progressRecord=> { %>
+                        <li class="progress-item-card">
 
-                                    <div class="card-title-container">
-                                        <h5 class="day-heading">Day <%= progressRecord.day %> 🚀</h5>
-                                        <% if (progressRecord.date) { let formattedDisplayDate=progressRecord.date;
-                                            const dateObject=new Date(progressRecord.date); if
-                                            (!isNaN(dateObject.getTime())) {
-                                            formattedDisplayDate=dateObject.toLocaleDateString('en-GB', { day: 'numeric'
-                                            , month: 'long' }); } %>
-                                            <span class="date-pill">📅 <%= formattedDisplayDate %></span>
-                                            <% } %>
-                                    </div>
+                            <div class="card-title-container">
+                                <h5 class="day-heading">Day <%= progressRecord.day %> 🚀</h5>
+                                <% if (progressRecord.date) { let formattedDisplayDate=progressRecord.date; const
+                                    dateObject=new Date(progressRecord.date); if (!isNaN(dateObject.getTime())) {
+                                    formattedDisplayDate=dateObject.toLocaleDateString('en-GB', { day: 'numeric' ,
+                                    month: 'long' }); } %>
+                                    <span class="date-pill">📅 <%= formattedDisplayDate %></span>
+                                    <% } %>
+                            </div>
 
-                                    <div class="info-section">
-                                        <span class="section-label">TOPICS COVERED 📚</span>
-                                        <div class="pill-container">
-                                            <% if (progressRecord.topics && progressRecord.topics.length> 0) { %>
-                                                <% [...new Set(progressRecord.topics)].forEach(topicName=> { %>
-                                                    <span class="content-pill pill-topic">
-                                                        <%= topicName %>
-                                                    </span>
-                                                    <% }); %>
-                                                        <% } else { %>
-                                                            <span
-                                                                style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
-                                                            <% } %>
-                                        </div>
-                                    </div>
+                            <div class="info-section">
+                                <span class="section-label">TOPICS COVERED 📚</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.topics && progressRecord.topics.length> 0) { %>
+                                        <% [...new Set(progressRecord.topics)].forEach(topicName=> { %>
+                                            <span class="content-pill pill-topic">
+                                                <%= topicName %>
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
+                                                    <% } %>
+                                </div>
+                            </div>
 
-                                    <div class="info-section">
-                                        <span class="section-label">LEETCODE NUMBERS 🔢</span>
-                                        <div class="pill-container">
-                                            <% if (progressRecord.leetcodeNum && progressRecord.leetcodeNum.length> 0) {
-                                                %>
-                                                <% [...new Set(progressRecord.leetcodeNum)].forEach(leetcodeNumber=> {
-                                                    %>
-                                                    <span class="content-pill pill-leetcode">
-                                                        #<%= leetcodeNumber %>
-                                                    </span>
-                                                    <% }); %>
-                                                        <% } else { %>
-                                                            <span
-                                                                style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
-                                                            <% } %>
-                                        </div>
-                                    </div>
+                            <div class="info-section">
+                                <span class="section-label">LEETCODE NUMBERS 🔢</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.leetcodeNum && progressRecord.leetcodeNum.length> 0) {
+                                        %>
+                                        <% [...new Set(progressRecord.leetcodeNum)].forEach(leetcodeNumber=> {
+                                            %>
+                                            <span class="content-pill pill-leetcode">
+                                                #<%= leetcodeNumber %>
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
+                                                    <% } %>
+                                </div>
+                            </div>
 
-                                    <div class="info-section">
-                                        <span class="section-label">QUESTIONS SOLVED 💡</span>
-                                        <div class="pill-container">
-                                            <% if (progressRecord.questions && progressRecord.questions.length> 0) { %>
-                                                <% const filteredQuestions=[]; const processedQuestionTitles=new Set();
-                                                    progressRecord.questions.forEach(questionObj=> {
-                                                    if (!processedQuestionTitles.has(questionObj.q)) {
-                                                    processedQuestionTitles.add(questionObj.q);
-                                                    filteredQuestions.push(questionObj);
-                                                    }
-                                                    });
-                                                    %>
-                                                    <% filteredQuestions.forEach(questionItem=> { %>
+                            <div class="info-section">
+                                <span class="section-label">QUESTIONS SOLVED 💡</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.questions && progressRecord.questions.length> 0) { %>
+                                        <% const filteredQuestions=[]; const processedQuestionTitles=new Set();
+                                            progressRecord.questions.forEach(questionObj=> {
+                                            if (!processedQuestionTitles.has(questionObj.q)) {
+                                            processedQuestionTitles.add(questionObj.q);
+                                            filteredQuestions.push(questionObj);
+                                            }
+                                            });
+                                            %>
+                                            <% filteredQuestions.forEach(questionItem=> { %>
+                                                <span
+                                                    class="content-pill pill-difficulty-<%= questionItem.difficulty %>">
+                                                    <%= questionItem.q %>
+                                                </span>
+                                                <% }); %>
+                                                    <% } else { %>
                                                         <span
-                                                            class="content-pill pill-difficulty-<%= questionItem.difficulty %>">
-                                                            <%= questionItem.q %>
-                                                        </span>
-                                                        <% }); %>
-                                                            <% } else { %>
-                                                                <span
-                                                                    style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
-                                                                <% } %>
-                                        </div>
-                                    </div>
+                                                            style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
+                                                        <% } %>
+                                </div>
+                            </div>
 
-                                    <div class="info-section">
-                                        <span class="section-label">ALGORITHMS IMPLEMENTED ⚙️</span>
-                                        <div class="pill-container">
-                                            <% if (progressRecord.algorithms && progressRecord.algorithms.length> 0) {
-                                                %>
-                                                <% [...new Set(progressRecord.algorithms)].forEach(algorithmName=> { %>
-                                                    <span class="content-pill pill-algorithm">
-                                                        <%= algorithmName %>
-                                                    </span>
-                                                    <% }); %>
-                                                        <% } else { %>
-                                                            <span
-                                                                style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
-                                                            <% } %>
-                                        </div>
-                                    </div>
+                            <div class="info-section">
+                                <span class="section-label">ALGORITHMS IMPLEMENTED ⚙️</span>
+                                <div class="pill-container">
+                                    <% if (progressRecord.algorithms && progressRecord.algorithms.length> 0) {
+                                        %>
+                                        <% [...new Set(progressRecord.algorithms)].forEach(algorithmName=> { %>
+                                            <span class="content-pill pill-algorithm">
+                                                <%= algorithmName %>
+                                            </span>
+                                            <% }); %>
+                                                <% } else { %>
+                                                    <span
+                                                        style="color: var(--text-muted); font-size: 0.85rem; font-style: italic;">None</span>
+                                                    <% } %>
+                                </div>
+                            </div>
 
-                                </li>
-                                <% }); %>
-                        </ul>
-                        <% } %>
+                        </li>
+                        <% }); %>
+                </ul>
+                <% } %>
     </div>
 
 </body>
